@@ -67,14 +67,23 @@ static const struct arg args[] = {
 	{ netspeed_rx,	"🔻%s",		"wlp1s0", },
 	{ netspeed_tx,	"🔺%s",		"wlp1s0", },
 	{ run_command,	" 🔆%s",	"xbacklight -get|cut -d. -f1" },
-	{ run_command,	"🔉%s ",	"amixer get Master|cut -d% -sf1|cut -d[ -f2" },
+	{ run_command,	"%s",		"if [ $(amixer get Master|cut -d'[' -sf4) == \"on]\" ]; then echo 🔉; elif [ $(amixer get Master|cut -d'[' -sf4) == \"off]\" ]; then echo 🔇; fi" },
+	{ run_command,	"%s ",		"amixer get Master|cut -d% -sf1|cut -d[ -f2" },
+//	{ run_command,	"\b%s ",	"if [ $(amixer get Master|cut -d'[' -sf4) == \"on]\" ]; then echo yes💻; fi" },
+//	{ run_command,	"\b%s ",	"if [ 0 == 0 ]; then echo eqal; fi" },
 //	{ run_command,	"🔉%s",		"amixer get Master | awk -F'[][]' 'END{ print $2 }'" },
 	//{ cpu_freq,	"%s ",		"NULL" },
 	{ cpu_perc,	"%s",		"NULL" },
 //	{ cpu_perc,	" 💻%s",	"NULL" },
 	//{ load_avg,	"%s|",		"NULL" },
 	//{ vol_perc,	"%s|",		"/dev/snd" },
-	{ ram_used,	"🔥%s ",	"NULL" },
+	{ ram_used,	"🔥%s,",	"NULL" },
+	{ run_command,	"%s ",	"echo $((\
+				        (\
+					                 -$(grep MemAvailable /proc/meminfo|awk '{print $2}')\
+						         +$(grep MemTotal /proc/meminfo|awk '{print $2}')\
+				        )/1024\
+				))" },
 	//{ swap_used,	"%s|",		"NULL" },
 	//{ disk_used,	"%s|",		"/" },
 	//{ wifi_essid,	"%s",		"wlp1s0"},
