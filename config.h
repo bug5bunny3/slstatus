@@ -23,7 +23,7 @@ static const char unknown_str[] = "#";
  * datetime            date and time                   format string (%F %T)
  * disk_free           free disk space in GB           mountpoint path (/)
  * disk_perc           disk usage in percent           mountpoint path (/)
- * disk_total          total disk space in GB          mountpoint path (/")
+ * disk_total          total disk space in GB          mountpoint path (/)
  * disk_used           used disk space in GB           mountpoint path (/)
  * entropy             available entropy               NULL
  * gid                 GID of current user             NULL
@@ -65,9 +65,11 @@ static const struct arg args[] = {
 	/* function format          argument */
 	{ wifi_perc,	"%s",		"wlp1s0"},
 	{ netspeed_rx,	"🔻%s",		"wlp1s0", },
-	{ netspeed_tx,	"🔺%s",		"wlp1s0", },
-	{ run_command,	" 🔆%s",	"xbacklight -get|cut -d. -f1" },
-	{ run_command,	"%s",		"if [ $(amixer get Master|cut -d'[' -sf4) == \"on]\" ]; then echo 🔉; elif [ $(amixer get Master|cut -d'[' -sf4) == \"off]\" ]; then echo 🔇; fi" },
+	{ netspeed_tx,	"🔺%s ",	"wlp1s0", },
+//	{ run_command,	" %f🔆",	"xbacklight -get|cut -d. -f1" },
+	{ run_command,	"%s🔆",	"cat /sys/class/backlight/intel_backlight/brightness" },
+//	{ run_command,	"%s",		"if [ $(amixer get Master|cut -d'[' -sf4) == \"on]\" ]; then echo 🔉; elif [ $(amixer get Master|cut -d'[' -sf4) == \"off]\" ]; then echo 🔇; fi" },
+	{ run_command,	"%s",		"if [ $(pacmd list-sinks|grep muted|cut -d':' -f2) == \"no\" ]; then echo 🔉; elif [ $(pacmd list-sinks|grep muted|cut -d':' -f2) == \"yes\" ]; then echo 🔇; fi" },
 	{ run_command,	"%s",		"amixer get Master|cut -d% -sf1|cut -d[ -f2" },
 	{ run_command,	"%s ",		"if [ $(pactl list sinks|grep 'Active Port: '|cut -d':' -f2) == 'analog-output-headphones' ];then echo 🎧;fi" },
 //	{ run_command,	"%s",		"if [ $(pactl list sinks|grep 'Active Port: '|cut -d':' -f2) == 'analog-output-headphones' ]; then echo 🎧;else printf \"\" ; fi" },
