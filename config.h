@@ -61,13 +61,16 @@ static const char unknown_str[] = "#";
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  */
+
 static const struct arg args[] = {
 	/* function format          argument */
 	{ wifi_perc,	"%s",		"wlp1s0"},
-	{ netspeed_rx,	"🔻%s",		"wlp1s0", },
-	{ netspeed_tx,	"🔺%s ",	"wlp1s0", },
+	{ netspeed_rx,	" %s🔻",	"wlp1s0", },
+	{ netspeed_tx,	"%s🔺",	"wlp1s0", },
+
 //	{ run_command,	" %f🔆",	"xbacklight -get|cut -d. -f1" },
 	{ run_command,	"%s🔆",	"cat /sys/class/backlight/intel_backlight/brightness" },
+
 //	{ run_command,	"%s",		"if [ $(amixer get Master|cut -d'[' -sf4) == \"on]\" ]; then echo 🔉; elif [ $(amixer get Master|cut -d'[' -sf4) == \"off]\" ]; then echo 🔇; fi" },
 	{ run_command,	"%s",		"if [ $(pacmd list-sinks|grep muted|cut -d':' -f2) == \"no\" ]; then echo 🔉; elif [ $(pacmd list-sinks|grep muted|cut -d':' -f2) == \"yes\" ]; then echo 🔇; fi" },
 	{ run_command,	"%s",		"amixer get Master|cut -d% -sf1|cut -d[ -f2" },
@@ -76,23 +79,19 @@ static const struct arg args[] = {
 //	{ run_command,	"\b%s ",	"if [ $(amixer get Master|cut -d'[' -sf4) == \"on]\" ]; then echo yes💻; fi" },
 //	{ run_command,	"\b%s ",	"if [ 0 == 0 ]; then echo eqal; fi" },
 //	{ run_command,	"🔉%s",		"amixer get Master | awk -F'[][]' 'END{ print $2 }'" },
+
 	//{ cpu_freq,	"%s ",		"NULL" },
 	{ cpu_perc,	"%s",		"NULL" },
 //	{ cpu_perc,	" 💻%s",	"NULL" },
 	//{ load_avg,	"%s|",		"NULL" },
-	//{ vol_perc,	"%s|",		"/dev/snd" },
-	{ ram_used,	"🔥%s,",	"NULL" },
-	{ run_command,	"%s ",	"echo $((\
-				        (\
-					                 -$(grep MemAvailable /proc/meminfo|awk '{print $2}')\
-						         +$(grep MemTotal /proc/meminfo|awk '{print $2}')\
-				        )/1024\
-				))" },
+//	{ vol_perc,	"||%s||",	"/dev/snd/pcmC0D0p" },
+	{ ram_used,	"🔥%s",	"NULL" },
+//	{ run_command,	"%s ",		"echo $(awk '/MemTotal/{printf \"%.1f\",$2/1024}' /proc/meminfo)-$(awk '/MemAvailable/{printf \"%.1f\",$2/1024}' /proc/meminfo)|bc" },
 	//{ swap_used,	"%s|",		"NULL" },
 	//{ disk_used,	"%s|",		"/" },
 	//{ wifi_essid,	"%s",		"wlp1s0"},
 	//{ wifi_perc,	"📶%s",		"wlp1s0"},
-	{ battery_state, "%s",		"BAT0" },
+	{ battery_state, " %s",		"BAT0" },
 //	{ battery_state, "🔋%s",	"BAT0" },
 	{ battery_perc,	"%s",		"BAT0" },
 	//{ run_command, "%s|",		"date +%S.%N" },
